@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+<h1>Удаление объявления</h1>
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Вы уверены, что хотите удалить пост от {{ post.date_creation}} ???</p>
+    <h6> Название - "{{ post.title }}"</h6>
+    <input type="submit" value="Подтвердить" />
+</form>
+{% endblock content %}

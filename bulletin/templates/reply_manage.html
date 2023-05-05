@@ -1,0 +1,16 @@
+{% if status_reply %}
+<div class="alert.alert-success">
+  {{status_reply}}
+</div>
+{% endif %}
+
+Дата создания: {{i.reply_date_creation}}<br>
+Автор: {{i.reply_user}}<br>
+Статус: {{i.status}}
+    {% if i.reply_post.author == request.user %}
+    -
+    <a class="update_status" data-url="{% url 'update_reply_status' i.id 'public' %}" href="#">Опубликовать</a> /
+    <a class="update_status" data-url="{% url 'update_reply_status' i.id 'delete' %}" href="#">Удалить</a>
+    {% endif %}
+    <br><br>
+Текст комментария: {{i.text}}

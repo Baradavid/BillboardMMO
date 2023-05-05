@@ -1,0 +1,21 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+
+<br>
+<ul>
+        {% if replies %}
+            {% for reply in replies %}
+                <h4>Автор: {{ request.user }}</h4>
+                <time>Дата и время: {{ reply.reply_date_creation|date:'j.m.y H:i' }}</time>
+                <p>Отзыв: {{ reply.text }}</p>
+                <h6>Объявление: {{ reply.reply_post.title }}</h6>
+            {% endfor %}
+        {% else %}
+        Откликов пока не создано!
+        {% endif %}
+</ul>
+
+{% endblock %}

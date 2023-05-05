@@ -1,0 +1,78 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+<figure><img src="{{ post_detail.get_thumbnail }}" width="500"></figure>
+<h1>Дата - {{ post_detail.date_creation}}</h1>
+<p>Заголовок - {{ post_detail.title | Censor }}</p>
+<p>Текст - {{ post_detail.text | Censor }}</p>
+<p>Категория - {% for category in post_detail.post_category.all %}
+                        <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+                   {% endfor %}</p>
+<p>Автор - {{ post_detail.author }}</p>
+
+<p>Комментарии</p>
+
+<hr>
+
+{% if messages %}
+<div class="alert.alert-success">
+    {% for m in messages %}
+    {{m}}
+    {% endfor %}
+</div>
+{% endif %}
+
+<ul>
+{% for i in post_detail.relpy_post.all %}
+<li>
+{% include 'reply_manage.html' %}
+</li>
+{% endfor %}
+</ul>
+
+<div class="col-4">
+    <form action="" id="add_form" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+    </form>
+        <button form="add_form" type="submit" class="btn.btn-primary">Добавить</button>
+</div>
+<hr>
+<a href="{% url 'post_edit' post_detail.id %}"><u>Редактировать объявление</u></a>
+<br><br>
+<a href="{% url 'post_delete' post_detail.id %}"><u>Удалить объявление</u></a>
+
+{% endblock content %}
+
+{% block js %}
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+    $('body').on('click', '.update_status', function(event){
+        event.preventDefault();
+        if (confirm('Вы уверены')) {
+            var url = $(this).attr('data-url')
+            var tag_li = $(this).parent()
+            console.log(url)
+
+            $.ajax({
+                url:url,
+                type: 'GET',
+                success: function(response) {
+                    tag_li.html(response)
+                    console.log(response)
+                }
+            })
+
+        }
+
+    })
+</script>
+{% endblock %}

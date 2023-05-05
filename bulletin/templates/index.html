@@ -1,0 +1,29 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+<h2>Страница пользователя {{request.user.username}}</h2>
+<div> Здесь может содержаться персональная информация для каждого пользователя </div>
+
+<button> <a href="{% url 'logout' %}">Выйти</a> </button>
+
+
+<hr>
+
+
+<h1>Активность пользователя:</h1>
+
+<a href="http://127.0.0.1:8000/replies/">Комментарии пользователя</a>
+
+
+{% if is_not_premium %}
+
+<hr>
+
+<br><br>
+<small><small><button> <a href="/upgrade/"> Стать автором!* <br> *позволяет создавать, редактировать и удалять объявления </a> </button></small></small>
+{% endif %}
+
+{% endblock %}
+
